@@ -11,6 +11,10 @@ aioschedule = "*"
 render = "*"
 certifi = "*"
 pandas = "*"
+sanic-jinja2 = "*"
+aiohttp-cache = "*"
+aiohttp-client-cache = "*"
+aiosqlite = "*"
 
 [dev-packages]
 

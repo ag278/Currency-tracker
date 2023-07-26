@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Display List</title>
+</head>
+<body>
+    <h1>List Data</h1>
+    <div class="dis " id="dis"></div>
+    <p id="current-time">Loading...</p>
+
+    <script>
+
+        // Function to update the data on the page
+        function updateData(data) {
+            var dataList = document.getElementById('data-list');
+            dataList.innerHTML = '';
+
+            data.forEach(function(item) {
+                var listItem = document.createElement('li');
+                listItem.innerText = item;
+                dataList.appendChild(listItem);
+            });
+        }
+
+        // Function to fetch data and update the page content
+        async function fetchData() {
+<!--            var res = await fetch(/fetch-currency)-->
+<!--            var ans = await res.text()-->
+
+<!--            var data = JSON.parse(ans)-->
+<!--            data = data.data-->
+            console.log(data)
+            var temp =
+            `
+            <table border="1">
+                <tr>
+                    <th>Currency</th>
+                    <th>Values</th>
+                    <th>Base</th>
+                </tr>
+
+
+            `
+
+            for (var i = 1; i <= data.length; i++) {
+                temp +=
+                    `
+                    <tr>
+                        <td>${data[i - 1]['base']}</td>
+                        <td>${data[i - 1]['currency']}</td>
+                        <td>${data[i - 1]['value']}</td>
+                    </tr>
+                    `
+            }
+
+            temp += `</table>`
+            document.getElementById("dis").innerHTML = temp
+
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+        async function run() {
+            while (true) {
+                fetchData();
+                await sleep(interval);
+            }
+        }
+
+
+        // Start fetching data when the page loads
+        run();
+        /*document.addEventListener('DOMContentLoaded', function() {
+
+            run()
+        });*/
+    </script>
+</body>
+</html>
