@@ -1,5 +1,3 @@
-import asyncio
-
 from sanic import Sanic, text
 
 from sanic.exceptions import NotFound

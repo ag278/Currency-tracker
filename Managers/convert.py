@@ -14,6 +14,9 @@ headers = {
 
 
 class DataNotFoundError(Exception):
+    """
+    Exception raised when data is not found
+    """
     pass
 
 
@@ -24,7 +27,7 @@ class Convert:
 
     @classmethod
     async def asyncio_convert_currency(cls, convert_to, convert_from, amount):
-        print("async convert just started")
+        # print("async convert just started")
         try:
             url = f"https://api.apilayer.com/exchangerates_data/convert?to={convert_to}&from={convert_from}&amount={amount}"
             async with aiohttp.ClientSession() as session:
@@ -36,6 +39,7 @@ class Convert:
 
     @classmethod
     async def convert_currency_handler(cls, request):
+
         try:
 
             query_params = request.args
@@ -61,6 +65,7 @@ class Convert:
             return data
 
         except asyncio.TimeoutError:
+            # If the api does not give the response within the given time period
             raise Exception("Response not received within the timeout period (60 seconds)")
         except ValueError:
             # If 'amount' is not an integer or not provided, handle the error

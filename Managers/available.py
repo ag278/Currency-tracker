@@ -7,7 +7,6 @@ from dotenv import load_dotenv
 from sanic_ext import render
 from utils import currencies
 from aiohttp_client_cache import CachedSession, SQLiteBackend
-
 load_dotenv()
 
 payload = {}

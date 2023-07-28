@@ -14,10 +14,16 @@ headers = {
 
 
 class DataNotFoundInCSVError(Exception):
+    """
+        Exception raised when the list is empty
+    """
     pass
 
 
 class NoQueryParam(Exception):
+    """
+        Exception raised when the query parameter is not provided
+    """
     pass
 
 
@@ -27,7 +33,7 @@ class Remove:
         pass
 
     @classmethod
-    async def delete_csv_row(cls, file_path, key_column, key_value):
+    def delete_csv_row(cls, file_path, key_column, key_value):
         # Read the CSV file and load its contents into memory
         with open(file_path, 'r') as file:
             reader = csv.DictReader(file)
@@ -37,7 +43,7 @@ class Remove:
             raise DataNotFoundInCSVError('The list is Empty')
 
         currency_list = key_value.split(',')
-        print(currency_list)
+        # print(currency_list)
 
         # Identify the row(s) that need to be deleted
         rows_to_delete = []
@@ -46,7 +52,7 @@ class Remove:
                 if row[key_column] == val:
                     rows_to_delete.append(row)
 
-        print(rows_to_delete)
+        # print(rows_to_delete)
 
         if len(rows_to_delete) == 0:
             return text('All the currencies you have entered is/are not present in the list, kindly try again')
@@ -64,15 +70,17 @@ class Remove:
         return await Display.display_currency_handler()
 
     @classmethod
-    async def remove_currency_handler(cls, request):
+    def remove_currency_handler(cls, request):
         try:
             query_params = request.args
 
             currency = query_params.get(['currency'][0], '-1')
-            print(currency)
+            # print(currency)
+
+            # Handles the case when the currency is provided
             if currency != '-1':
                 currency = currency.upper()
-                return await cls.delete_csv_row('data.csv', 'currency', currency)
+                return cls.delete_csv_row('data.csv', 'currency', currency)
 
             raise NoQueryParam('Kindly enter the currency')
         except NoQueryParam as e:

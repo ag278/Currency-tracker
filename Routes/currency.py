@@ -11,7 +11,7 @@ currency = Blueprint("currency", version=1)
 
 
 @currency.get("/fetch-currency")
-async def fetch_currency(request):
+async def fetch_currency(request ):
     response = await Fetch.fetch_currency_handler(request)
     return response
 
