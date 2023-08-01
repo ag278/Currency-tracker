@@ -8,6 +8,7 @@ from sanic_ext import render
 from utils import currencies
 from aiohttp_client_cache import CachedSession, SQLiteBackend
 load_dotenv()
+from config import config
 
 payload = {}
 headers = {
@@ -41,6 +42,7 @@ class Available:
     @classmethod
     async def available_currency_handler(cls):
         try:
+            url = config.AVAILABLE_URL
             task3 = asyncio.create_task(asyncio.wait_for(cls.fetch_data(), timeout=60))
             data = await task3
             return data

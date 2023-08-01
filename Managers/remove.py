@@ -33,7 +33,7 @@ class Remove:
         pass
 
     @classmethod
-    def delete_csv_row(cls, file_path, key_column, key_value):
+    async def delete_csv_row(cls, file_path, key_column, key_value):
         # Read the CSV file and load its contents into memory
         with open(file_path, 'r') as file:
             reader = csv.DictReader(file)

@@ -72,9 +72,9 @@ class Fetch:
                     for currency, values in rates.items():
                         data.append({"currency": currency, "value": values, "base": base})
 
-                    await cls.store_dict_list_to_csv('data.csv', data)
-
-                    return await Display.display_currency_handler(not_found_symbol)
+                    cls.store_dict_list_to_csv('data.csv', data)
+                    return json({"sdff":"sdf"})
+                    # return await Display.display_currency_handler(not_found_symbol)
 
         except Exception as e:
             return e
@@ -123,7 +123,7 @@ class Fetch:
             crontab_url = crontab_url[:-3]
             crontab_url += "&base=" + base + "'"
 
-            cls.crontab_handler(crontab_url, interval)
+            # cls.crontab_handler(crontab_url, interval)
 
             task1 = asyncio.create_task(
                 asyncio.wait_for(cls.asyncio_fetch_currency(symbols, base, not_found_symbol), timeout=60))
