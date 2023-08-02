@@ -53,9 +53,6 @@ class Currency:
         await DataManager.write_file(retain_curr)
         return not_found_currency
 
-    # except Exception as e:
-    #     return e
-
     async def fetch(self):
         try:
             symbols = self.query_params.get(['symbols'][0])
@@ -95,8 +92,6 @@ class Currency:
 
         except asyncio.TimeoutError:
             raise RequestTimeout(REQUEST_TIMEOUT_MESSAGE)
-        # except Exception as e:
-        #     return e
 
     async def convert(self):
         try:
@@ -122,8 +117,6 @@ class Currency:
 
         except asyncio.TimeoutError:
             raise RequestTimeout(REQUEST_TIMEOUT_MESSAGE)
-        # except Exception as e:
-        #     return response.json({'error': str(e)}, status=404)
 
     async def available(self):
         try:

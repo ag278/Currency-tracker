@@ -10,7 +10,7 @@ class ApiManager:
 
     @classmethod
     async def api_call(cls, url):
-        print(url)
+        # print(url)
         async with aiohttp.ClientSession() as session:
             async with session.get(url, headers=cls.headers, data=cls.payload, ssl=False) as response:
                 if response.status == 400:

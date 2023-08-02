@@ -1,7 +1,6 @@
 from sanic import Blueprint
 from sanic.request import Request
 from sanic_ext import render
-
 from config import config
 from Managers.currency_manager import Currency
 from utils import *

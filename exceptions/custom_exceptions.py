@@ -3,13 +3,7 @@ from sanic import Sanic, response
 from sanic.exceptions import BadRequest, NotFound
 from pydantic import BaseModel, ValidationError
 import asyncio
-
-from exceptions.error_messages import REQUEST_TIMEOUT_MESSAGE
-
-
-class NegativeError(SanicException):
-    status_code = 400
-    message = "Amount cannot be negative."
+from exceptions.error_messages import REQUEST_TIMEOUT_MESSAGE, WRONG_INPUT_MESSAGE,EMPTY_LIST_MESSAGE
 
 
 class DataNotFoundError(SanicException):
@@ -21,28 +15,14 @@ class DataNotFoundError(SanicException):
         super().__init__(message)
 
 
-class MissingQueryParam(SanicException):
-    """
-    Exception raised when required query param is not found
-    """
-    pass
-
-
 class EmptyList(SanicException):
     """
     Exception raised when the list is empty
     """
 
     def __init__(self, message="The list is empty"):
-        print(message)
+        # print(message)
         super().__init__(message)
-
-
-class EmptyCSVList(SanicException):
-    """
-    Exception raised when csv file is empty
-    """
-    pass
 
 
 def custom_exception_handler(*exceptions):
@@ -54,14 +34,13 @@ def custom_exception_handler(*exceptions):
                 return response.json({"status": 400, "error": "Validation error", "detail": str(e)}, status=400)
             except asyncio.TimeoutError as e:
                 return response.json({"status": 408, "error": REQUEST_TIMEOUT_MESSAGE, "detail": str(e)}, status=408)
-
             except DataNotFoundError as e:
-                return response.json({"status": 400, "error": "Wrong input error", "detail": str(e)}, status=400)
+                return response.json({"status": 404, "error": WRONG_INPUT_MESSAGE , "detail": str(e)}, status=404)
             except EmptyList as e:
-                return response.json({"status": 400, "error": "Empty list", "detail": str(e)}, status=400)
+                return response.json({"status": 400, "error": EMPTY_LIST_MESSAGE, "detail": str(e)}, status=400)
             except exceptions as e:
                 # Handle the specific exceptions here
-                return response.json({"error": str(e)}, status=500)  # Custom JSON response for exceptions
+                return response.json({"error": str(e)}, status=500)
 
         return wrapper
 

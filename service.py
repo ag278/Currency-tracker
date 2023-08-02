@@ -1,3 +1,5 @@
+import os
+
 from sanic import Sanic, text
 from sanic.exceptions import NotFound
 from crontab import CronTab
@@ -19,9 +21,10 @@ async def check_api(app, loop):
 
 
 @app.listener("before_server_start")
-async def clear_crontab(app, loop):
+def clear_crontab(app, loop):
     cron = CronTab(user='atul.goyal')
     cron.remove_all()
+    cron.write()
 
 
 @app.exception(NotFound)
