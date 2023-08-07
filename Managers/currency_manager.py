@@ -73,7 +73,7 @@ class Currency:
             if interval < 0:
                 raise BadRequest("interval Must be Positive")
 
-            create_crontab_url(symbols_list, base, interval)
+            # create_crontab_url(symbols_list, base, interval)
 
             self.build()
             task = asyncio.create_task(
@@ -86,8 +86,9 @@ class Currency:
             for currency, values in result.rates.items():
                 data.append({"currency": currency, "value": values, "base": base})
 
+            # print(data)
             await DataManager.write_file(data)
-
+            # print("fvrefr")
             return not_found_currency
 
         except asyncio.TimeoutError:

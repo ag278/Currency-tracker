@@ -16,6 +16,7 @@ aiohttp-cache = "*"
 aiohttp-client-cache = "*"
 aiosqlite = "*"
 mail = "*"
+tortoise = "*"
 
 [dev-packages]
 

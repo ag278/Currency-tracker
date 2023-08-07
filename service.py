@@ -1,11 +1,12 @@
 import os
-
+from tortoise import Tortoise
 from sanic import Sanic, text
 from sanic.exceptions import NotFound
 from crontab import CronTab
 from Routes import root_group
 from Managers.api_manager import ApiManager
 from config.config import AVAILABLE_URL
+from models.database.models import InitDatabase
 
 app = Sanic("currency-tracker")
 app.blueprint(root_group)
@@ -25,6 +26,16 @@ def clear_crontab(app, loop):
     cron = CronTab(user='atul.goyal')
     cron.remove_all()
     cron.write()
+
+
+@app.listener('before_server_start')
+async def setup_db(app, loop):
+    await InitDatabase.init_db()
+
+
+@app.listener('before_server_stop')
+async def stop_db(app, loop):
+    await Tortoise.close_connections()
 
 
 @app.exception(NotFound)
